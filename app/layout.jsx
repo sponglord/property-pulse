@@ -1,6 +1,4 @@
-// 1. The layout file represents the main entry point to our application as far as our folder & file struture goes
-// It is a React component that is *rendered on the server*
-
+import Navbar from "@/components/Navbar";
 import "@/assets/styles/globals.css";
 
 export const metadata = {
@@ -9,12 +7,12 @@ export const metadata = {
   keywords: "rental, find rentals, find properties",
 };
 
-// 2. The pages we create, and how they show in the layout, comes through the children property
 const MainLayout = ({ children }) => {
   return (
     <html lang="en">
       <body>
-        <div>{children}</div>
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );
