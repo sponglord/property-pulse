@@ -6,7 +6,7 @@
 // 3. Demo-ing use of React's Router (in Client rendered page) as way to navigate
 "use client"; // see: https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns
 
-// 4. Also demo-ing the useParams, useSearchParams & useXXX hooks from next/navigation
+// 4. Also demo-ing the useParams, useSearchParams & usePathname hooks from next/navigation
 
 import {
   useRouter,
