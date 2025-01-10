@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* see https://tailwind.build/classes for a list of classes that you can add once you've included the above */
+
+/* Remaining global styles can go here */
