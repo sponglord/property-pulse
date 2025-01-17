@@ -1,4 +1,10 @@
-"use client";
+"use client"; // without this, for some reason, the spinner won't spin
+
+/**
+ * Just by having a page in the app dir called "loading" you automatically get a page
+ * that will render whilst other pages load
+ */
+
 import { ClipLoader } from "react-spinners";
 
 const override = {

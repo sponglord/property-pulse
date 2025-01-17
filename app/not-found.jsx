@@ -1,3 +1,8 @@
+/**
+ * Just by having a page in the app dir called "not-found" you automatically get a page
+ * that will render when there is a 404 "page not found" error
+ */
+
 import Link from "next/link";
 import { FaExclamationTriangle } from "react-icons/fa";
 
