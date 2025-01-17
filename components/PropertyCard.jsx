@@ -1,5 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FaBed,
+  FaBath,
+  FaRulerCombined,
+  FaMoneyBill,
+  FaMapMarker,
+} from "react-icons/fa";
 
 const PropertyCard = ({ property }) => {
   const getRateDisplay = () => {
@@ -37,15 +44,15 @@ const PropertyCard = ({ property }) => {
 
         <div className="flex justify-center gap-4 text-gray-500 mb-4">
           <p>
-            <i className="fa-solid fa-bed"></i> {property.beds}{" "}
-            <span className="md:hidden lg:inline">Beds</span>
+            <FaBed className="inline mr-2" />
+            {property.beds} <span className="md:hidden lg:inline">Beds</span>
           </p>
           <p>
-            <i className="fa-solid fa-bath"></i> {property.baths}{" "}
-            <span className="md:hidden lg:inline">Baths</span>
+            <FaBath className="inline mr-2" />
+            {property.baths} <span className="md:hidden lg:inline">Baths</span>
           </p>
           <p>
-            <i className="fa-solid fa-ruler-combined"></i>
+            <FaRulerCombined className="inline mr-2" />
             {property.square_feet}{" "}
             <span className="md:hidden lg:inline">sqft</span>
           </p>
@@ -54,17 +61,17 @@ const PropertyCard = ({ property }) => {
         <div className="flex justify-center gap-4 text-green-900 text-sm mb-4">
           {property.rates.nightly && (
             <p>
-              <i className="fa-solid fa-money-bill"></i> Nightly
+              <FaMoneyBill className="inline mr-2" /> Nightly
             </p>
           )}
           {property.rates.weekly && (
             <p>
-              <i className="fa-solid fa-money-bill"></i> Weekly
+              <FaMoneyBill className="inline mr-2" /> Weekly
             </p>
           )}
           {property.rates.monthly && (
             <p>
-              <i className="fa-solid fa-money-bill"></i> Monthly
+              <FaMoneyBill className="inline mr-2" /> Monthly
             </p>
           )}
         </div>
@@ -73,7 +80,7 @@ const PropertyCard = ({ property }) => {
 
         <div className="flex flex-col lg:flex-row justify-between mb-4">
           <div className="flex align-middle gap-2 mb-4 lg:mb-0">
-            <i className="fa-solid fa-location-dot text-lg text-orange-700"></i>
+            <FaMapMarker className="text-orange-700 mt-1" />
             <span className="text-orange-700">
               {" "}
               {property.location.city} {property.location.state}
