@@ -8,8 +8,9 @@ import { fetchProperty } from "@/utils/requests";
 
 import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
 import PropertyDetails from "@/components/PropertyDetails";
+import Spinner from "@/components/Spinner";
+import { FaArrowLeft } from "react-icons/fa";
 
 const PropertyPage = () => {
     const { id } = useParams();
@@ -50,6 +51,7 @@ const PropertyPage = () => {
     // We've finished loading and have retrieved a property
     return (
         <>
+            {loading && <Spinner loading={loading} />}
             {!loading && property && (
                 <>
                     {/* Image */}
