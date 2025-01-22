@@ -36,7 +36,7 @@ const PropertyPage = () => {
         if (property === null) {
             fetchPropertyData();
         }
-    }, [id, property]);
+    }, [id, property]); // Whenever the id or property change - fetch the new property object from the database
 
     // If proerty is not found and we're not in the process (db call) of looking for a property
     if (!property && !loading) {
