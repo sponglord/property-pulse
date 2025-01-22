@@ -1,6 +1,8 @@
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
 
+// GET api/properties/:[id]
+
 // Test by going to http://localhost:5040/api/properties/678e882ece5a98937f674389 (where the last string is an _id for an entry in the mongoDB)// GET api/properties/:[id]
 export const GET = async (request, { params }) => {
     // N.B. second argument, destructuring params from the url
