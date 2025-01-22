@@ -7,11 +7,15 @@ import Property from '@/models/Property';
 export const GET = async (request, { params }) => {
     // N.B. second argument, destructuring params from the url
 
+    // Asynchronous access of `params.id`.
+    // In Next 15, the params & searchParam APIs have been made asynchronous. re. https://nextjs.org/docs/messages/sync-dynamic-apis
+    const { id } = await params;
+
     try {
         await connectDB();
 
         // The Property model has a findById method which allows you to specify the _id (db-added key) of a property you want to find
-        const property = await Property.findById(params.id);
+        const property = await Property.findById(id);
 
         if (!property) return new Response('Property not found', { status: 404 });
 
