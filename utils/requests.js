@@ -1,0 +1,25 @@
+const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
+
+// Fetch properties from the db
+async function fetchProperties() {
+    try {
+        // Handle the case where the domain is not available yet
+        if (!apiDomain) {
+            return [];
+        }
+
+        // Because we are doing this from the server we have to include the domain
+        const res = await fetch(`${apiDomain}/properties`);
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch data');
+        }
+
+        return res.json();
+    } catch (error) {
+        console.log('### Data fetch error:: error=', error);
+        return [];
+    }
+}
+
+export { fetchProperties };
