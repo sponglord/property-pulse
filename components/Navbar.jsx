@@ -19,9 +19,12 @@ const Navbar = () => {
 	const pathname = usePathname();
 
 	/**
-	 *  Retrieve all the authentication providers that have been potentially configured - see authOptions.js > providers array
+	 * Retrieve all the authentication providers that have been potentially configured - see authOptions.js > providers array
 	 * re. https://next-auth.js.org/providers/
-	 *  */
+	 *
+	 * Each provider will be an object containing properties like signinUrl & callbackUrl which will be populated
+	 * by values we set up at https://console.cloud.google.com
+	 */
 	useEffect(() => {
 		const setAuthProviders = async () => {
 			const res = await getProviders();
