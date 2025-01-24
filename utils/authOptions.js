@@ -27,7 +27,7 @@ export const authOptions = {
 		async signIn({ profile }) {
 			// 1. Connect to DB
 			await connectDB();
-			// 2. Check if user exists. (A successful sign on will give us access to the email, userName, image, id from the Google account)
+			// 2. Check if user exists. (A successful sign on will give us access to the email, (user)name, image, id from the Google account)
 			const userExists = await User.findOne({ email: profile.email });
 			// 3. If not, add user to Db
 			if (!userExists) {
