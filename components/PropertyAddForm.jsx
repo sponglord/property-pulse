@@ -114,7 +114,13 @@ const PropertyAddForm = () => {
 
 	return (
 		mounted && (
-			<form>
+			<form
+				// Use a restful route to make POST request to api/properties
+				// ('cos we have an image field we need an encType to allow us to upload images)
+				action='/api/properties'
+				method='POST'
+				encType='multipart/form-data'
+			>
 				<h2 className='text-3xl text-center font-semibold mb-6'>
 					Add Property
 				</h2>
@@ -565,7 +571,7 @@ const PropertyAddForm = () => {
 					<input
 						type='text'
 						id='seller_name'
-						name='seller_info.name.'
+						name='seller_info.name'
 						className='border rounded w-full py-2 px-3'
 						placeholder='Name'
 						value={fields.seller_info.name}
