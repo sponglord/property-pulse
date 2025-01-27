@@ -30,7 +30,7 @@ const PropertyAddForm = () => {
 		beds: '1',
 		baths: '1',
 		square_feet: '900',
-		amenities: ['Wifi'],
+		amenities: [],
 		rates: {
 			weekly: '',
 			monthly: '4200',
@@ -44,9 +44,73 @@ const PropertyAddForm = () => {
 		images: [],
 	});
 
-	const handleChange = () => {};
-	const handleAmenitiesChange = () => {};
-	const handleImageChange = () => {};
+	const handleChange = (e) => {
+		// Get the input element name, and the value that has been input
+		const { name, value } = e.target;
+
+		// Some name values will be in the form of "location.street", or "rates.weekly"
+		if (name.includes('.')) {
+			const [outerKey, innerKey] = name.split('.');
+
+			setFields((prevFields) => ({
+				...prevFields,
+				[outerKey]: {
+					...prevFields[outerKey],
+					[innerKey]: value,
+				},
+			}));
+		} else {
+			// For "regular" name values
+			setFields((prevFields) => ({
+				...prevFields,
+				[name]: value,
+			}));
+		}
+	};
+
+	const handleAmenitiesChange = (e) => {
+		// Get the checkbox's value, and whether it is checked
+		const { value, checked } = e.target;
+
+		// Clone the current array
+		const updatedAmenities = [...fields.amenities];
+
+		if (checked) {
+			// Add value to array
+			updatedAmenities.push(value);
+		} else {
+			// Remove value from array
+			const index = updatedAmenities.indexOf(value);
+			if (index !== -1) {
+				updatedAmenities.splice(index, 1);
+			}
+		}
+
+		// Update state with updated array
+		setFields((prevFields) => ({
+			...prevFields,
+			amenities: updatedAmenities,
+		}));
+	};
+
+	const handleImageChange = (e) => {
+		// A "file" type input returns a FileList object
+		const { files } = e.target;
+
+		// Clone images array
+		const updatedImages = [...fields.images];
+
+		// Add new files to the array
+		for (const file of files) {
+			updatedImages.push(file);
+		}
+
+		// Update state with array of images
+		setFields((prevFields) => ({
+			...prevFields,
+			iamges: updatedImages,
+		}));
+	};
 
 	return (
 		mounted && (
