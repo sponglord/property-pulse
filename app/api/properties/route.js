@@ -93,14 +93,33 @@ export const POST = async (request) => {
 				phone: formData.get('seller_info.phone'),
 			},
 			owner: userId,
-			images,
+
+			/**
+			 * Images need to be uploaded to Cloudinary, so we can retrieve an actual url for them, and it is this url we will store
+			 * in a string array.
+			 * As it stands the images are currently File objects which we cannot store, as they are not compatible with
+			 * Mongoose validation
+			 */
+			// images,
 		};
 
-		console.log('### propertyData:: =', propertyData);
+		// console.log('### propertyData:: =', propertyData);
 
-		return new Response(JSON.stringify({ message: 'success' }), {
-			status: 200,
-		});
+		// Instantiate a new Model...
+		const newProperty = new Property(propertyData);
+
+		// ...and save it to the DB
+		await newProperty.save();
+
+		// After a successful submission to the DB, redirect to the newly created property page
+		// - MongoDB will have created a new property with an (Object) _id which it will have written to the Model
+		return Response.redirect(
+			`${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
+		);
+
+		// return new Response(JSON.stringify({ message: 'success' }), {
+		// 	status: 200,
+		// });
 	} catch (error) {
 		console.log('### POST error:: e=', error);
 		return new Response('Failed to add property', { status: 500 });
