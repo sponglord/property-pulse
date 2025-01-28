@@ -1,5 +1,9 @@
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
+import { authOptions } from '@/utils/authOptions';
+
+// Needed so we can retrieve the User from the Session
+import { getServerSession } from 'next-auth/next';
 
 // GET api/properties
 export const GET = async (request) => {
@@ -39,6 +43,28 @@ export const POST = async (request) => {
 	// See the attributes on the <form> element in /components/PropertyAddForm.jsx - for how this route is called
 
 	try {
+		/**
+		 * Retrieve the session / user.id
+		 */
+		await connectDB();
+
+		const session = await getServerSession(authOptions);
+
+		if (!session) {
+			return new Response('Unauthorized', { status: 401 });
+		}
+
+		// console.log('### session:: =', session);
+		/**
+		 * session = {user:, name:, email:, image:, id:}
+		 */
+
+		// We have previously written the user.id to the session in the session callback in authOptions.js
+		const userId = session.user.id;
+
+		/**
+		 * Parse the form data, ready to send to the DB
+		 */
 		const formData = await request.formData();
 		// console.log('### formData:: name=', formData.get('type')); // Gets the value of the from element who's name attribute is set to "type"
 
@@ -74,10 +100,11 @@ export const POST = async (request) => {
 				email: formData.get('seller_info.email'),
 				phone: formData.get('seller_info.phone'),
 			},
+			owner: userId,
 			images,
 		};
 
-		// console.log('### propertyData:: =', propertyData);
+		console.log('### propertyData:: =', propertyData);
 
 		return new Response(JSON.stringify({ message: 'success' }), {
 			status: 200,
