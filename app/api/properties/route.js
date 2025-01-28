@@ -1,9 +1,6 @@
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
-import { authOptions } from '@/utils/authOptions';
-
-// Needed so we can retrieve the User from the Session
-import { getServerSession } from 'next-auth/next';
+import { getSessionUser } from '@/utils/getSessionUser';
 
 // GET api/properties
 export const GET = async (request) => {
@@ -44,23 +41,18 @@ export const POST = async (request) => {
 
 	try {
 		/**
-		 * Retrieve the session / user.id
+		 * Retrieve the user/user.id
 		 */
 		await connectDB();
 
-		const session = await getServerSession(authOptions);
+		// Access the logged in user
+		const sessionUser = await getSessionUser();
 
-		if (!session) {
-			return new Response('Unauthorized', { status: 401 });
+		if (!sessionUser || !sessionUser.userId) {
+			return new Response('User ID is required', { status: 401 });
 		}
 
-		// console.log('### session:: =', session);
-		/**
-		 * session = {user:, name:, email:, image:, id:}
-		 */
-
-		// We have previously written the user.id to the session in the session callback in authOptions.js
-		const userId = session.user.id;
+		const { userId } = sessionUser;
 
 		/**
 		 * Parse the form data, ready to send to the DB
