@@ -34,7 +34,7 @@ const PropertyCard = ({ property }) => {
 				height={0}
 				// width & height have to be specified to keep the compiler happy
 				// but it is the sizes attribute that is doing the work here,
-				// in combination with the full width and auto height css classes
+				// in combination with the full width css class
 				sizes='100vw'
 				className='w-full h-auto rounded-t-xl'
 			/>

@@ -17,6 +17,12 @@ const PropertyHeaderImage = ({ image }) => {
 						width={0}
 						height={0}
 						sizes='100vw'
+						/**
+						 * Avoids the:
+						 * "Image with src "https://blahblah.jpg" was detected as the Largest Contentful Paint (LCP).
+						 * Please add the "priority" property if this image is above the fold."
+						 * warning in the console
+						 */
 						priority={true}
 					/>
 				</div>
