@@ -9,9 +9,16 @@ const nextConfig = {
 	},
 	images: {
 		remotePatterns: [
+			// Needed to display images served from Google e.g. user profile images
 			{
 				protocol: 'https',
 				hostname: 'lh3.googleusercontent.com',
+				pathname: '**',
+			},
+			// Needed to display images served from Cloudinary i.e. property images
+			{
+				protocol: 'https',
+				hostname: 'res.cloudinary.com',
 				pathname: '**',
 			},
 		],
