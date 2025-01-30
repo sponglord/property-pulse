@@ -20,7 +20,7 @@ export const GET = async (request) => {
 
 		await connectDB();
 
-		// The Property model has a find method which takes options on how you want to retieve your data...
+		// The Property model has a find method which takes options on how you want to retrieve your data...
 		const properties = await Property.find({}); // ...an empty object means we will retrieve all
 
 		/**
