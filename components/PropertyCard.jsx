@@ -1,3 +1,4 @@
+import { getImageSrc } from '@/utils/getImageSrc';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -20,10 +21,8 @@ const PropertyCard = ({ property }) => {
 		}
 	};
 
-	// Quick hack to display both images from Cloudinary, and, local ones
-	const imageSrc = property.images[0].includes('https') // Detect if url is Cloudinary
-		? property.images[0] // Works for images loaded from Cloudinary
-		: `/images/properties/${property.images[0]}`; // Works for static images from the public dir
+	// Use util to display both images from Cloudinary, and, local ones
+	const imageSrc = getImageSrc(property.images[0]);
 
 	return (
 		<div className='rounded-xl shadow-md relative'>

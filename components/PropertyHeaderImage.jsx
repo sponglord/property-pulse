@@ -1,10 +1,9 @@
+import { getImageSrc } from '@/utils/getImageSrc';
 import Image from 'next/image';
 
 const PropertyHeaderImage = ({ image }) => {
-	// Quick hack to display both images from Cloudinary, and, local ones
-	const imageSrc = image.includes('https') // Detect if url is Cloudinary
-		? image // Works for image loaded from Cloudinary
-		: `/images/properties/${image}`; // Works for static image from the public dir
+	// Use util to display both images from Cloudinary, and, local ones
+	const imageSrc = getImageSrc(image);
 
 	return (
 		<section>
