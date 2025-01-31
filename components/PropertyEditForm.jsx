@@ -120,7 +120,29 @@ const PropertyEditForm = () => {
 		}));
 	};
 
-	const handleSubmit = async () => {};
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			// Retrieve the data from the form and convert to a FormData object, to be passed to the request
+			const formData = new FormData(e.target);
+			const res = await fetch(`/api/properties/${id}`, {
+				method: 'PUT',
+				body: formData,
+			});
+
+			if (res.status === 200) {
+				toast.success('Property updated');
+				router.push(`/properties/${id}`); // Redirect to property page
+			} else if (res.status === 401 || res.status === 403) {
+				toast.error('Permission denied');
+			} else {
+				toast.error('Something went wrong');
+			}
+		} catch (error) {
+			console.log('### Updating failed:: error=', error);
+			toast.error('Something went wrong');
+		}
+	};
 
 	return (
 		mounted &&
@@ -626,7 +648,7 @@ const PropertyEditForm = () => {
 						className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline'
 						type='submit'
 					>
-						Add Property
+						Update Property
 					</button>
 				</div>
 			</form>

@@ -2,7 +2,7 @@ import connectDB from '@/config/database';
 import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 
-// GET api/properties/:[id]
+// GET api/properties/:id
 // Fetches individual property based on id
 
 // Test by going to http://localhost:5040/api/properties/678e882ece5a98937f674389 (where the last string is an _id for an entry in the mongoDB)// GET api/properties/:[id]
@@ -35,7 +35,7 @@ export const GET = async (request, { params }) => {
 	}
 };
 
-// DELETE api/properties/:[id]
+// DELETE api/properties/:id
 // Deletes individual property based on id
 export const DELETE = async (request, { params }) => {
 	// N.B. second argument, destructuring params from the url
@@ -65,7 +65,7 @@ export const DELETE = async (request, { params }) => {
 
 		// Verify ownership
 		if (property.owner.toString() !== userId) {
-			return new Response('unauthorised', { status: 401 });
+			return new Response('Unauthorised', { status: 401 });
 		}
 
 		// Proceed with deletion
@@ -75,5 +75,85 @@ export const DELETE = async (request, { params }) => {
 	} catch (error) {
 		console.log('### GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 }); // 500 = Internal Server Error
+	}
+};
+
+// PUT api/properties/:id
+export const PUT = async (request, { params }) => {
+	try {
+		await connectDB();
+
+		// Retrieve the logged in user's id
+		const sessionUser = await getSessionUser();
+
+		if (!sessionUser || !sessionUser.userId) {
+			return new Response('User ID is required', { status: 401 });
+		}
+
+		const { id } = await params; // Get property's id
+		const { userId } = sessionUser;
+
+		/**
+		 * Parse the form data, ready to send to the DB
+		 */
+		const formData = await request.formData();
+
+		// Access all values from amenities and images
+		const amenities = formData.getAll('amenities'); // retrieves all values from an array
+
+		// Get property to update
+		const existingProperty = await Property.findById(id);
+
+		if (!existingProperty) {
+			return new Response('Property does not exist', { status: 404 });
+		}
+
+		// Verify ownership
+		if (existingProperty.owner.toString() !== userId) {
+			return new Response('Unauthorised', { status: 401 });
+		}
+
+		// Create property data object for the DB
+		const propertyData = {
+			type: formData.get('type'),
+			name: formData.get('name'),
+			description: formData.get('description'),
+			location: {
+				street: formData.get('location.street'),
+				city: formData.get('location.city'),
+				state: formData.get('location.state'),
+				zipcode: formData.get('location.zipcode'),
+			},
+			beds: formData.get('beds'),
+			baths: formData.get('baths'),
+			square_feet: formData.get('square_feet'),
+			amenities,
+			rates: {
+				weekly: formData.get('rates.weekly'),
+				monthly: formData.get('rates.monthly'),
+				nightly: formData.get('rates.nightly'),
+			},
+			seller_info: {
+				name: formData.get('seller_info.name'),
+				email: formData.get('seller_info.email'),
+				phone: formData.get('seller_info.phone'),
+			},
+			owner: userId,
+		};
+
+		// console.log('### propertyData:: =', propertyData);
+
+		// Update property in DB
+		const updatedProperty = await Property.findByIdAndUpdate(
+			id,
+			propertyData
+		);
+
+		return new Response(JSON.stringify(updatedProperty), {
+			status: 200,
+		});
+	} catch (error) {
+		console.log('### PUT error:: e=', error);
+		return new Response('Failed to update property', { status: 500 });
 	}
 };
