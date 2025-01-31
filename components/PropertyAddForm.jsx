@@ -108,7 +108,7 @@ const PropertyAddForm = () => {
 		// Update state with array of images
 		setFields((prevFields) => ({
 			...prevFields,
-			iamges: updatedImages,
+			images: updatedImages,
 		}));
 	};
 
