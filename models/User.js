@@ -18,8 +18,10 @@ const UserSchema = new Schema(
 		},
 		bookmarks: [
 			{
-				type: Schema.Types.ObjectId, // property _id's from the DB
-				ref: 'Property', // the collection we're getting the ids from
+				type: Schema.Types.ObjectId, // property _id from the DB
+				// References the Property collection which is we're getting the ids from
+				// Every User's bookmark should be related to a particular property
+				ref: 'Property',
 			},
 		],
 	},
