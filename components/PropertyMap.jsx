@@ -14,12 +14,13 @@ const PropertyMap = ({ property }) => {
 	const [viewport, setViewport] = useState({
 		latitude: 0,
 		longitude: 0,
-		zoom: 12,
+		zoom: 15,
 		width: '100%',
-		height: '500px',
+		height: '500',
 	});
 
 	const [loading, setLoading] = useState(true);
+	const [geocodeError, setGeocodeError] = useState(false);
 
 	setDefaults({
 		key: process.env.NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY,
@@ -29,27 +30,42 @@ const PropertyMap = ({ property }) => {
 
 	useEffect(() => {
 		const fetchCoords = async () => {
-			const { street, city, state, zipcode } = property.location;
+			try {
+				const { street, city, state, zipcode } = property.location;
 
-			// Make fetch call to Google geocoding API
-			const res = await fromAddress(
-				`${street} ${city} ${state} ${zipcode}`
-			);
+				// Make fetch call to Google geocoding API
+				const res = await fromAddress(
+					`${street} ${city} ${state} ${zipcode}`
+				);
 
-			const { lat, lng } = res.results[0].geometry.location;
+				// Check for results
+				if (res.results.length === 0) {
+					// No results
+					setGeocodeError(true);
+					setLoading(false);
+					return;
+				}
 
-			setLat(lat);
-			setLng(lng);
+				const { lat, lng } = res.results[0].geometry.location;
 
-			setViewport({
-				...viewport,
-				latitude: lat,
-				longitude: lng,
-			});
+				setLat(lat);
+				setLng(lng);
 
-			setLoading(false);
+				setViewport({
+					...viewport,
+					latitude: lat,
+					longitude: lng,
+				});
 
-			console.log('### lat, lng:: =', lat, lng);
+				setLoading(false);
+
+				// console.log('### lat, lng:: =', lat, lng);
+			} catch (error) {
+				console.log('### Error fetching coordinates:: error=', error);
+
+				setGeocodeError(true);
+				setLoading(false);
+			}
 		};
 
 		fetchCoords();
@@ -57,12 +73,21 @@ const PropertyMap = ({ property }) => {
 
 	if (loading) return <Spinner loading={loading} />;
 
+	// Handle case where geocoding failed
+	if (geocodeError) {
+		return <div className='text-xl'>No location data found</div>;
+	}
+
 	return (
 		!loading && (
 			<Map
 				mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
 				mapLib={import('mapbox-gl')}
-				initialViewState={{ longitude: lng, latitude: lat, zoom: 15 }}
+				initialViewState={{
+					longitude: lng,
+					latitude: lat,
+					zoom: viewport.zoom,
+				}}
 				style={{ width: '100%', height: 500 }}
 				mapStyle={'mapbox://styles/mapbox/streets-v9'}
 			>
