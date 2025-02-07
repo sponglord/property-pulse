@@ -21,7 +21,7 @@ async function fetchProperties() {
 
 		return res.json();
 	} catch (error) {
-		console.log('### Data fetch error:: error=', error);
+		console.log('### fetchProperties:: Data fetch error:: error=', error);
 		return [];
 	}
 }
@@ -42,7 +42,7 @@ async function fetchProperty(id) {
 
 		return res.json();
 	} catch (error) {
-		console.log('### Data fetch error:: error=', error);
+		console.log('### fetchProperty :: Data fetch error:: error=', error);
 		return null;
 	}
 }

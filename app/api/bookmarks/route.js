@@ -26,7 +26,7 @@ export const GET = async () => {
 		// Find user in DB
 		const user = await User.findOne({ _id: userId }); // You could also use User.findById()
 
-		// Get user's bookmarks
+		// Get user's bookmarked properties
 		const bookmarks = await Property.find({
 			// NOTE: we're looking in the user's bookmarks to see if there's a property that matches the _id of the property
 			_id: { $in: user.bookmarks },
