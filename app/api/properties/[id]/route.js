@@ -30,7 +30,7 @@ export const GET = async (request, { params }) => {
 
 		return new Response(JSON.stringify(property), { status: 200 });
 	} catch (error) {
-		console.log('### GET error:: e=', error);
+		console.log('### api/properties/:id GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
 	}
 };
@@ -73,7 +73,7 @@ export const DELETE = async (request, { params }) => {
 
 		return new Response('Property deleted', { status: 200 });
 	} catch (error) {
-		console.log('### GET error:: e=', error);
+		console.log('### api/properties/:id DELETE error:: e=', error);
 		return new Response('Something went wrong', { status: 500 }); // 500 = Internal Server Error
 	}
 };
@@ -153,7 +153,7 @@ export const PUT = async (request, { params }) => {
 			status: 200,
 		});
 	} catch (error) {
-		console.log('### PUT error:: e=', error);
+		console.log('### api/properties/:id PUT error:: e=', error);
 		return new Response('Failed to update property', { status: 500 });
 	}
 };

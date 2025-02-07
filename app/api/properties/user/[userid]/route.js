@@ -22,7 +22,7 @@ export const GET = async (request, { params }) => {
 
 		return new Response(JSON.stringify(properties), { status: 200 });
 	} catch (error) {
-		console.log('### GET error:: e=', error);
+		console.log('### /properties/user/:userid GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
 	}
 };

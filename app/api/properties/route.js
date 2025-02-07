@@ -10,7 +10,7 @@ export const GET = async (request) => {
 	/* try {
         return new Response(JSON.stringify({ message: 'Hello world' }), { status: 200 });
     } catch (error) {
-        console.log('### GET error:: e=', error);
+        console.log('### /properties GET error:: e=', error);
         return new Response('Something went wrong', { status: 500 });
     } */
 
@@ -31,7 +31,7 @@ export const GET = async (request) => {
 
 		return new Response(JSON.stringify(properties), { status: 200 });
 	} catch (error) {
-		console.log('### GET error:: e=', error);
+		console.log('### /properties GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
 	}
 };
@@ -159,7 +159,7 @@ export const POST = async (request) => {
 		// 	status: 200,
 		// });
 	} catch (error) {
-		console.log('### POST error:: e=', error);
+		console.log('### /properties POST error:: e=', error);
 		return new Response('Failed to add property', { status: 500 });
 	}
 };

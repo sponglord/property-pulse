@@ -37,7 +37,7 @@ export const POST = async (request) => {
 			status: 200,
 		});
 	} catch (error) {
-		console.log('### PUSH error:: e=', error);
+		console.log('### /bookmarks/check PUSH error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
 	}
 };
