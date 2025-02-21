@@ -6,7 +6,8 @@ export const GET = async (request) => {
 	try {
 		await connectDB();
 
-		// Extract searchParams from url
+		// In a server rendered page can retrieve params from the url like this
+		// c.f. const searchParams = useSearchParams(); (from next/navigation) which we would use in a client rendered page
 		const { searchParams } = new URL(request.url);
 		const location = searchParams.get('location');
 		const propertyType = searchParams.get('propertyType');
