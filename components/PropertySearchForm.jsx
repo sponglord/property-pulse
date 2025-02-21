@@ -17,6 +17,7 @@ const PropertySearchForm = () => {
 		} else {
 			const query = `?location=${location}&propertyType=${propertyType}`;
 
+			// Go to page which will hit the /api/properties/search endpoint and show the results
 			router.push(`/properties/search-results${query}`);
 		}
 	};
