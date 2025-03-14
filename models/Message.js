@@ -23,7 +23,7 @@ const MessageSchema = new Schema(
 		},
 		// Match to the fields inside the PropertyContactForm
 		name: {
-			type: String, // could use the name from the sender, but we want to offer freedom for a message to be send thats not from a registered user
+			type: String, // could use the name from the sender, but we want to offer freedom to send a message using any name
 			required: [true, 'Name is required'],
 		},
 		email: {
