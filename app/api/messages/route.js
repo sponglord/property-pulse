@@ -61,3 +61,35 @@ export const POST = async (request) => {
 		return new Response('Something went wrong', { status: 500 }); // Internal server error
 	}
 };
+
+// GET /api/messages
+export const GET = async () => {
+	try {
+		await connectDB();
+
+		const sessionUser = await getSessionUser();
+
+		if (!sessionUser || !sessionUser.user) {
+			return new Response(
+				JSON.stringify({
+					message: 'You must be logged in to fetch messages',
+				}),
+				{ status: 401 } // unauthorised
+			);
+		}
+
+		const { userId } = sessionUser;
+
+		// Get user's messages
+		const messages = await Message.find({ recipient: userId })
+			// get the sender's name and property's title because there's a relationship between the messages and the sender (user)
+			// and the messages and the property
+			.populate('sender', 'name')
+			.populate('property', 'title');
+
+		return new Response(JSON.stringify(messages), { status: 200 });
+	} catch (error) {
+		console.log('### /messages GET error:: e=', error);
+		return new Response('Something went wrong', { status: 500 });
+	}
+};
