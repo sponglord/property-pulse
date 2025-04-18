@@ -84,8 +84,8 @@ export const GET = async () => {
 		const messages = await Message.find({ recipient: userId })
 			// get the sender's name and property's title because there's a relationship between the messages and the sender (user)
 			// and the messages and the property
-			.populate('sender', 'name')
-			.populate('property', 'title');
+			.populate('sender', 'username')
+			.populate('property', 'name');
 
 		return new Response(JSON.stringify(messages), { status: 200 });
 	} catch (error) {
