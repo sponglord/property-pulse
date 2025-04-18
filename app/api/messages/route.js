@@ -82,7 +82,7 @@ export const GET = async () => {
 
 		// Get user's messages
 		const messages = await Message.find({ recipient: userId })
-			// get the sender's name and property's title because there's a relationship between the messages and the sender (user)
+			// get the sender's name and property's name because there's a relationship between the messages and the sender (user)
 			// and the messages and the property
 			.populate('sender', 'username')
 			.populate('property', 'name');
