@@ -36,6 +36,7 @@ export const GET = async (request, { params }) => {
 };
 
 // DELETE api/properties/:id
+// For deleting a specific property from "Your Profile" > "Your Listings"
 // Deletes individual property based on id
 export const DELETE = async (request, { params }) => {
 	// N.B. second argument, destructuring params from the url
@@ -78,6 +79,7 @@ export const DELETE = async (request, { params }) => {
 	}
 };
 
+// For editing a specific property from "Your Profile" > "Your Listings"
 // PUT api/properties/:id
 export const PUT = async (request, { params }) => {
 	try {
@@ -90,7 +92,8 @@ export const PUT = async (request, { params }) => {
 			return new Response('User ID is required', { status: 401 });
 		}
 
-		const { id } = await params; // Get property's id
+		const { id } = await params; // Get property's id, available as "id" because that's how the folder in the api is called  i.e. "[id]".
+		// If the folder was called [propertyid] then we'd be retrieving the propertyid prop from the params
 		const { userId } = sessionUser;
 
 		/**

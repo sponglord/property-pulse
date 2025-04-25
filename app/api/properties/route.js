@@ -4,6 +4,7 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import cloudinary from '@/config/cloudinary';
 
 // GET api/properties
+// Retrieve all properties
 export const GET = async (request) => {
 	// For testing the route...
 	// Going to http://localhost:5040/api/properties will print "Hello world" to the screen
@@ -37,6 +38,7 @@ export const GET = async (request) => {
 };
 
 // POST api/properties
+// Add a new property
 export const POST = async (request) => {
 	// See the attributes on the <form> element in /components/PropertyAddForm.jsx - for how this route is called
 
