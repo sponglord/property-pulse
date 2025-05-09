@@ -80,12 +80,37 @@ export const GET = async () => {
 
 		const { userId } = sessionUser;
 
-		// Get user's messages
-		const messages = await Message.find({ recipient: userId })
+		// Get user's messages (phase 1)
+		// const messages = await Message.find({ recipient: userId })
+		// 	// get the sender's name and property's name because there's a relationship between the messages and the sender (user)
+		// 	// and the messages and the property
+		// 	.populate('sender', 'username')
+		// 	.populate('property', 'name');
+
+		// Get user's read messages (phase 2)
+		const readMessages = await Message.find({
+			recipient: userId,
+			read: true,
+		})
+			.sort({ createdAt: -1 }) // sort read messages in asc order of how old they are
 			// get the sender's name and property's name because there's a relationship between the messages and the sender (user)
 			// and the messages and the property
 			.populate('sender', 'username')
 			.populate('property', 'name');
+
+		// Get user's unread messages (phase 2)
+		const unreadMessages = await Message.find({
+			recipient: userId,
+			read: false,
+		})
+			.sort({ createdAt: -1 }) // sort unread messages in asc order of how old they are
+			// get the sender's name and property's name because there's a relationship between the messages and the sender (user)
+			// and the messages and the property
+			.populate('sender', 'username')
+			.populate('property', 'name');
+
+		// Combine the 2 sets of messages
+		const messages = [...unreadMessages, ...readMessages];
 
 		return new Response(JSON.stringify(messages), { status: 200 });
 	} catch (error) {
