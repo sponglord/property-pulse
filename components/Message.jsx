@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Message = ({ message }) => {
@@ -9,8 +9,6 @@ const Message = ({ message }) => {
 	// We need state to update the UI when the message is deleted.
 	// Just calling the DELETE endpoint will only update the DB and we would need a page refresh to see the UI update
 	const [isDeleted, setIsDeleted] = useState(false);
-
-	// useEffect(() => {}, []);
 
 	const handleReadClick = async () => {
 		try {
