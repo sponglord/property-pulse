@@ -3,15 +3,21 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { useGlobalContext } from '@/context/GlobalContext';
+
 const Message = ({ message }) => {
 	const [isRead, setIsRead] = useState(message.read);
 
-	// We need state to update the UI when the message is deleted.
+	const { setUnreadCount } = useGlobalContext(); // now uses the global context to access a setter on the global state
+
+	// We need state to update the UI when the message is deleted (in order to not show the message anymore).
 	// Just calling the DELETE endpoint will only update the DB and we would need a page refresh to see the UI update
 	const [isDeleted, setIsDeleted] = useState(false);
 
 	const handleReadClick = async () => {
 		try {
+			// toggles the message's "read" property in the DB, via the PUT route, which finds the message by id
+			// and sets it's read state to the opposite of what it currently is
 			const res = await fetch(`/api/messages/${message._id}`, {
 				method: 'PUT',
 			});
@@ -19,6 +25,11 @@ const Message = ({ message }) => {
 			if (res.status === 200) {
 				const { read } = await res.json();
 				setIsRead(read);
+
+				// Sets global state as the click happens (allowing UnreadMessageCount to update without a page refresh)
+				setUnreadCount((prevCount) =>
+					read ? prevCount - 1 : prevCount + 1
+				);
 
 				if (read) {
 					toast.success('Marked as read');
@@ -40,6 +51,8 @@ const Message = ({ message }) => {
 
 			if (res.status === 200) {
 				setIsDeleted(true);
+				// Sets global state as the click happens (allowing UnreadMessageCount to update without a page refresh)
+				setUnreadCount((prevCount) => prevCount - 1);
 				toast.success('Message deleted');
 			}
 		} catch (error) {

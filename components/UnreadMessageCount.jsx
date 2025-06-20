@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useGlobalContext } from '@/context/GlobalContext';
 
 const UnreadMessageCount = ({ session }) => {
-	const [unreadCount, setUnreadCount] = useState(0);
+	const { unreadCount, setUnreadCount } = useGlobalContext(); // now uses the global context to access global state
 
 	useEffect(() => {
 		// If there's a session, we know the user is logged in
@@ -15,7 +16,7 @@ const UnreadMessageCount = ({ session }) => {
 
 				if (res.status === 200) {
 					const data = await res.json();
-					setUnreadCount(data);
+					setUnreadCount(data); // sets global state based on results from DB
 				}
 			} catch (error) {
 				console.error('Error fetchng unread message count:', error);
