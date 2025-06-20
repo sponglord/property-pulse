@@ -46,6 +46,8 @@ const PropertyEditForm = () => {
 		// Fetch property data for form
 		const fetchPropertyData = async () => {
 			try {
+				// TODO - is this "allowed" or is this only supposed to be done in server components?
+				// Should we instead be using the GET in app/api/properties/[id]/route.js
 				const propertyData = await fetchProperty(id);
 
 				// Check rates for null values (to avoid "`value` prop on `input` should not be null.'" errors)
