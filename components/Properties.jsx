@@ -6,21 +6,27 @@ import Spinner from '@/components/Spinner';
 
 const Properties = () => {
 	const [properties, setProperties] = useState([]);
-
 	const [loading, setLoading] = useState(true);
+
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(3);
+	const [totalItems, setTotalItems] = useState(0);
 
 	useEffect(() => {
 		// Fetch property data for form
 		const fetchProperties = async () => {
 			try {
-				const res = await fetch('/api/properties');
+				const res = await fetch(
+					`/api/properties?page=${page}&pageSize=${pageSize}`
+				);
 
 				if (!res.ok) {
 					throw new Error('Failed to fetch properties');
 				}
 
 				const data = await res.json();
-				setProperties(data);
+				setProperties(data.properties);
+				setTotalItems(data.total);
 			} catch (error) {
 				console.log('### Error fetching properties:: error=', error);
 			} finally {

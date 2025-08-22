@@ -4,9 +4,9 @@ import { fetchProperties } from '@/utils/requests';
 
 const HomeProperties = async () => {
 	// This is a server component - so we are "allowed" to call this function which will make a db call
-	const properties = await fetchProperties();
+	const data = await fetchProperties();
 
-	const recentProperties = properties
+	const recentProperties = data.properties
 		.sort(() => Math.random() - Math.random()) // N.B. trick to randomise an array
 		.slice(0, 3);
 

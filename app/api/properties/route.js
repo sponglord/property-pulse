@@ -21,8 +21,26 @@ export const GET = async (request) => {
 
 		await connectDB();
 
-		// The Property model has a find method which takes options on how you want to retrieve your data...
-		const properties = await Property.find({}); // ...an empty object means we will retrieve all
+		// As an alternative to doing this...
+		// const { searchParams } = new URL(request.url);
+		// const page = searchParams.get('page');
+		// const pageSize = searchParams.get('pageSize');
+
+		// ...Get the params from the url using nextUrl
+		const page = request.nextUrl.searchParams.get('page') || 1; // The page we want to "start" on
+		const pageSize = request.nextUrl.searchParams.get('pageSize') || 3; // The no. of properties we want to display per page
+
+		console.log('### pageSize:: =', pageSize);
+
+		// If we request a "page" and a page has a pageSize of x, then if we start on page 2, we need to ignore the first x properties
+		// and start retrieving properties from x + 1
+		const skip = (page - 1) * pageSize;
+
+		// Passing in an empty object to the model i.e. no retrieval "condition" will give us a count of all the properties
+		const total = await Property.countDocuments({});
+
+		// Retrieve a subset of properties starting at the skip value and only containing the number specified by pageSize
+		const properties = await Property.find({}).skip(skip).limit(pageSize);
 
 		/**
 		 * What's happening...
@@ -30,7 +48,12 @@ export const GET = async (request) => {
 		 *    query the database we've connected to and retrieve all the objects that match that schema
 		 */
 
-		return new Response(JSON.stringify(properties), { status: 200 });
+		const result = {
+			total,
+			properties,
+		};
+
+		return new Response(JSON.stringify(result), { status: 200 });
 	} catch (error) {
 		console.log('### /properties GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
