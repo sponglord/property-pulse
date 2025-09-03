@@ -5,11 +5,15 @@ import PropertyCard from '@/components/PropertyCard';
 import Spinner from '@/components/Spinner';
 import Pagination from '@/components/Pagination';
 
+import { useGlobalContext } from '@/context/GlobalContext';
+
 const Properties = () => {
 	const [properties, setProperties] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const [page, setPage] = useState(1);
+	// Use a global state, so that returning from a Property to the Properties page doesn't see the page reset back to 1
+	const { page, setPage } = useGlobalContext();
+
 	const [pageSize, setPageSize] = useState(3);
 	const [totalItems, setTotalItems] = useState(0);
 

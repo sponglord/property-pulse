@@ -14,8 +14,12 @@ export function GlobalProvider({ children }) {
 	// Any state that we want to be global goes here
 	const [unreadCount, setUnreadCount] = useState(0); // moved from UnreadMessageCount
 
+	const [page, setPage] = useState(1); // moved from Properties.jsx
+
 	return (
-		<GlobalContext.Provider value={{ unreadCount, setUnreadCount }}>
+		<GlobalContext.Provider
+			value={{ unreadCount, setUnreadCount, page, setPage }}
+		>
 			{children}
 		</GlobalContext.Provider>
 	);
