@@ -30,8 +30,6 @@ export const GET = async (request) => {
 		const page = request.nextUrl.searchParams.get('page') || 1; // The page we want to "start" on
 		const pageSize = request.nextUrl.searchParams.get('pageSize') || 3; // The no. of properties we want to display per page
 
-		console.log('### pageSize:: =', pageSize);
-
 		// If we request a "page" and a page has a pageSize of x, then if we start on page 2, we need to ignore the first x properties
 		// and start retrieving properties from x + 1
 		const skip = (page - 1) * pageSize;
