@@ -2,7 +2,7 @@ import Hero from '@/components/Hero';
 import InfoBoxes from '@/components/InfoBoxes';
 import HomeProperties from '@/components/HomeProperties';
 // import connectDB from '@/config/database';
-import FeaturedProperties from '@/components/FeaturedProperties';
+// import FeaturedProperties from '@/components/FeaturedProperties';
 
 const HomePage = () => {
 	// const HomePage = async () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
 		<div>
 			<Hero />
 			<InfoBoxes />
-			<FeaturedProperties />
+			{/* <FeaturedProperties /> */}
 			<HomeProperties />
 		</div>
 	);
