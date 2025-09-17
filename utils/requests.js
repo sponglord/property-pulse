@@ -11,12 +11,12 @@ async function fetchProperties({ showFeatured = false } = {}) {
 
 		// Because we are doing this from the server we have to include the domain
 		// Note: 2nd, 'cache', param is for when we are making a request from a server
-		// - will ensure properties just added in the "Add Property" page will immediatley show up in the Properties overview page
+		// - will ensure properties just added in the "Add Property" page will immediately show up in the Properties overview page
 		const res = await fetch(
-			`${apiDomain}/properties${showFeatured ? '/featured' : ''}`,
-			{
-				cache: 'no-store',
-			}
+			`${apiDomain}/properties${showFeatured ? '/featured' : ''}`
+			// {
+			// 	cache: 'no-store',
+			// }
 		);
 
 		if (!res.ok) {
