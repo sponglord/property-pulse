@@ -1,8 +1,18 @@
-import { fetchProperties } from '@/utils/requests';
+// import { fetchProperties } from '@/utils/requests';
+import connectDB from '@/config/database';
+import Property from '@/models/Property';
 import FeaturedPropertyCard from './FeaturedPropertyCard';
 
 const FeaturedProperties = async () => {
-	const properties = await fetchProperties({ showFeatured: true });
+	// const properties = await fetchProperties({ showFeatured: true });
+
+	// Avoid circular dependencies on Vercel and access the DB directly
+	await connectDB();
+
+	const properties = await Property.find({
+		is_featured: true,
+	}).lean();
+	// --
 
 	return (
 		properties.length > 0 && (

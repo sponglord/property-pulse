@@ -1,14 +1,26 @@
 import PropertyCard from '@/components/PropertyCard';
 import Link from 'next/link';
-import { fetchProperties } from '@/utils/requests';
+// import { fetchProperties } from '@/utils/requests';
+import connectDB from '@/config/database';
+import Property from '@/models/Property';
 
 const HomeProperties = async () => {
 	// This is a server component - so we are "allowed" to call this function which will make a db call
-	const data = await fetchProperties();
+	// const data = await fetchProperties();
 
-	const recentProperties = data.properties
-		.sort(() => Math.random() - Math.random()) // N.B. trick to randomise an array
-		.slice(0, 3);
+	// const recentProperties = data.properties
+	// 	.sort(() => Math.random() - Math.random()) // N.B. trick to randomise an array
+	// 	.slice(0, 3);
+
+	// Avoid circular dependencies on Vercel and access the DB directly
+	await connectDB();
+
+	// Get the 3 latest properties
+	const recentProperties = await Property.find({})
+		.sort({ createdAt: -1 })
+		.limit(3)
+		.lean();
+	// --
 
 	return (
 		<>
