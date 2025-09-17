@@ -1,8 +1,7 @@
-const apiDomain = 'api'; //process.env.NEXT_PUBLIC_API_DOMAIN || null;
+const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
 
 // Fetch all properties from the db, unless showFeatured value is set in which case we call a different endpoint
-// { showFeatured = false } = {}
-async function fetchProperties() {
+async function fetchProperties({ showFeatured = false } = {}) {
 	// Expect an object with a showFeatured prop which we set to false by default; and also set a default 'empty object' value for the object
 	try {
 		// Handle the case where the domain is not available yet
@@ -12,20 +11,19 @@ async function fetchProperties() {
 
 		// Because we are doing this from the server we have to include the domain
 		// Note: 2nd, 'cache', param is for when we are making a request from a server
-		// - will ensure properties just added in the "Add Property" page will immediately show up in the Properties overview page
-		//
-		// Either calls /api/properties OR /api/properties/featured
-		// `${apiDomain}/properties${showFeatured ? '/featured' : ''}`,
-
-		const res = await fetch(`${apiDomain}/properties`, {
-			cache: 'no-store',
-		});
+		// - will ensure properties just added in the "Add Property" page will immediatley show up in the Properties overview page
+		const res = await fetch(
+			`${apiDomain}/properties${showFeatured ? '/featured' : ''}`,
+			{
+				cache: 'no-store',
+			}
+		);
 
 		if (!res.ok) {
 			throw new Error('Failed to fetch data');
 		}
 
-		return await res.json();
+		return res.json();
 	} catch (error) {
 		console.log('### fetchProperties:: Data fetch error:: error=', error);
 		return [];
@@ -46,7 +44,7 @@ async function fetchProperty(id) {
 			throw new Error('Failed to fetch data');
 		}
 
-		return await res.json();
+		return res.json();
 	} catch (error) {
 		console.log('### fetchProperty :: Data fetch error:: error=', error);
 		return null;
