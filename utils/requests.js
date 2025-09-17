@@ -1,4 +1,4 @@
-const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
+const apiDomain = 'api'; //process.env.NEXT_PUBLIC_API_DOMAIN || null;
 
 // Fetch all properties from the db, unless showFeatured value is set in which case we call a different endpoint
 // { showFeatured = false } = {}
