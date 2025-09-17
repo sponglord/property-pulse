@@ -4,6 +4,7 @@ const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
 async function fetchProperties({ showFeatured = false } = {}) {
 	// Expect an object with a showFeatured prop which we set to false by default; and also set a default 'empty object' value for the object
 	try {
+		console.log('### apiDomain:: =', apiDomain);
 		// Handle the case where the domain is not available yet
 		if (!apiDomain) {
 			return [];
