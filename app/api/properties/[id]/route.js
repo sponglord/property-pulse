@@ -28,7 +28,13 @@ export const GET = async (request, { params }) => {
 		 *    query the database we've connected to and retrieve the object with the matching _id
 		 */
 
-		return new Response(JSON.stringify(property), { status: 200 });
+		return new Response(JSON.stringify(property), {
+			status: 200,
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*', // Allows requests from any origin
+			},
+		});
 	} catch (error) {
 		console.log('### api/properties/:id GET error:: e=', error);
 		return new Response('Something went wrong', { status: 500 });
