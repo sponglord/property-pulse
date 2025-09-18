@@ -1,4 +1,4 @@
-import { findPropertiesByQueryObject } from '@/utils/properties';
+import { getPropertiesByQueryObject } from '@/utils/properties';
 
 // GET api/properties/user/:userid
 export const GET = async (request, { params }) => {
@@ -16,7 +16,7 @@ export const GET = async (request, { params }) => {
 		// The Property model has a find method which takes options on how you want to retrieve your data...
 		// ...here we just want the properties that match that user's id
 
-		const properties = await findPropertiesByQueryObject({ owner: userid });
+		const properties = await getPropertiesByQueryObject({ owner: userid });
 
 		return new Response(JSON.stringify(properties), { status: 200 });
 	} catch (error) {

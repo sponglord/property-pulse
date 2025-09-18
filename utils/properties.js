@@ -8,7 +8,7 @@ export async function getFeaturedProperties() {
 	// 	is_featured: true,
 	// }).lean();
 
-	const properties = await findPropertiesByQueryObject({
+	const properties = await getPropertiesByQueryObject({
 		is_featured: true,
 	});
 
@@ -44,7 +44,7 @@ export async function updatePropertyById(id, propertyData) {
 	return updatedProperty;
 }
 
-export async function findPropertiesByQueryObject(queryObject) {
+export async function getPropertiesByQueryObject(queryObject) {
 	await connectDB();
 
 	const properties = await Property.find(queryObject);

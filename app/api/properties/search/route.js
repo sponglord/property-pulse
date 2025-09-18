@@ -1,4 +1,4 @@
-import { findPropertiesByQueryObject } from '@/utils/properties';
+import { getPropertiesByQueryObject } from '@/utils/properties';
 
 // GET /api/properties/search
 export const GET = async (request) => {
@@ -42,7 +42,7 @@ export const GET = async (request) => {
 
 		// Retrieve all props from DB, based on query
 
-		const properties = await findPropertiesByQueryObject(query);
+		const properties = await getPropertiesByQueryObject(query);
 
 		return new Response(JSON.stringify(properties), {
 			status: 200,
