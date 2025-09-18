@@ -32,7 +32,7 @@ const PropertyPage = () => {
 				const property = await fetchProperty(id);
 				setProperty(property);
 			} catch (error) {
-				console.error('Error fetchng property:', error);
+				console.error('Error fetching property:', error);
 			} finally {
 				setLoading(false); // Whatever happens - we want to reset the loading state
 			}

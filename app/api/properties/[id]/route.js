@@ -1,6 +1,5 @@
-import connectDB from '@/config/database';
-import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
+import { getPropertyById, updatePropertyById } from '@/utils/properties';
 
 // GET api/properties/:id
 // Fetches individual property based on id
@@ -10,14 +9,12 @@ export const GET = async (request, { params }) => {
 	// N.B. second argument, destructuring params from the url
 
 	try {
-		await connectDB();
-
 		// Asynchronous access of `params.id`.
 		// In Next 15, the params & searchParam APIs have been made asynchronous. re. https://nextjs.org/docs/messages/sync-dynamic-apis
 		const { id } = await params;
 
-		// The Property model has a findById method which allows you to specify the _id (db-added key) of a property you want to find
-		const property = await Property.findById(id);
+		// Use util to retrieve specific property
+		const property = await getPropertyById(id);
 
 		if (!property)
 			return new Response('Property not found', { status: 404 });
@@ -54,10 +51,6 @@ export const DELETE = async (request, { params }) => {
 	 * Need to match user/session to property owner - since only they are allowed to delete a property
 	 */
 	try {
-		await connectDB();
-
-		const { id: propertyId } = await params;
-
 		// Access the logged in user
 		const sessionUser = await getSessionUser();
 
@@ -67,8 +60,10 @@ export const DELETE = async (request, { params }) => {
 
 		const { userId } = sessionUser;
 
-		// The Property model has a findById method which allows you to specify the _id of a property you want to find
-		const property = await Property.findById(propertyId);
+		const { id: propertyId } = await params;
+
+		// Use util to retrieve specific property
+		const property = await getPropertyById(propertyId);
 
 		if (!property)
 			return new Response('Property not found', { status: 404 }); // 404 = Not found
@@ -92,18 +87,18 @@ export const DELETE = async (request, { params }) => {
 // PUT api/properties/:id
 export const PUT = async (request, { params }) => {
 	try {
-		await connectDB();
-
 		// Retrieve the logged in user's id
 		const sessionUser = await getSessionUser();
+		console.log('### :: sessionUser=', sessionUser);
 
 		if (!sessionUser || !sessionUser.userId) {
 			return new Response('User ID is required', { status: 401 });
 		}
 
+		const { userId } = sessionUser;
+
 		const { id } = await params; // Get property's id, available as "id" because that's how the folder in the api is called  i.e. "[id]".
 		// If the folder was called [propertyid] then we'd be retrieving the propertyid prop from the params
-		const { userId } = sessionUser;
 
 		/**
 		 * Parse the form data, ready to send to the DB
@@ -114,7 +109,7 @@ export const PUT = async (request, { params }) => {
 		const amenities = formData.getAll('amenities'); // retrieves all values from an array
 
 		// Get property to update
-		const existingProperty = await Property.findById(id);
+		const existingProperty = await getPropertyById(id);
 
 		if (!existingProperty) {
 			return new Response('Property does not exist', { status: 404 });
@@ -156,10 +151,7 @@ export const PUT = async (request, { params }) => {
 		// console.log('### propertyData:: =', propertyData);
 
 		// Update property in DB
-		const updatedProperty = await Property.findByIdAndUpdate(
-			id,
-			propertyData
-		);
+		const updatedProperty = await updatePropertyById(id, propertyData);
 
 		return new Response(JSON.stringify(updatedProperty), {
 			status: 200,

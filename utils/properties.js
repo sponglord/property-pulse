@@ -23,4 +23,19 @@ export async function getRecentProperties(num = 3) {
 	return recentProperties;
 }
 
-// export async function getPropertyById() {}
+export async function getPropertyById(id) {
+	await connectDB();
+
+	// The Property model has a findById method which allows you to specify the _id (db-added key) of a property you want to find
+	const property = await Property.findById(id);
+
+	return property;
+}
+
+export async function updatePropertyById(id, propertyData) {
+	await connectDB();
+
+	const updatedProperty = await Property.findByIdAndUpdate(id, propertyData);
+
+	return updatedProperty;
+}
