@@ -1,7 +1,8 @@
 import connectDB from '@/config/database';
 import User from '@/models/User';
-import Property from '@/models/Property';
+
 import { getSessionUser } from '@/utils/getSessionUser';
+import { findPropertiesByQueryObject } from '@/utils/properties';
 
 /**
  * This route will work fine locally but when pushing to Vercel it might have trouble using SSR with this route
@@ -13,8 +14,6 @@ export const dynamic = 'force-dynamic';
 // GET /api/bookmarks
 export const GET = async () => {
 	try {
-		await connectDB();
-
 		const sessionUser = await getSessionUser();
 
 		if (!sessionUser || !sessionUser.userId) {
@@ -27,7 +26,7 @@ export const GET = async () => {
 		const user = await User.findOne({ _id: userId }); // You could also use User.findById()
 
 		// Get user's bookmarked properties
-		const bookmarks = await Property.find({
+		const bookmarks = await findPropertiesByQueryObject({
 			// NOTE: we're looking in the user's bookmarks to see if there's a property that matches the _id of the property
 			_id: { $in: user.bookmarks },
 		});

@@ -2,11 +2,15 @@ import connectDB from '@/config/database';
 import Property from '@/models/Property';
 
 export async function getFeaturedProperties() {
-	await connectDB();
+	// await connectDB();
 
-	const properties = await Property.find({
+	// const properties = await Property.find({
+	// 	is_featured: true,
+	// }).lean();
+
+	const properties = await findPropertiesByQueryObject({
 		is_featured: true,
-	}).lean();
+	});
 
 	return properties;
 }
@@ -38,4 +42,12 @@ export async function updatePropertyById(id, propertyData) {
 	const updatedProperty = await Property.findByIdAndUpdate(id, propertyData);
 
 	return updatedProperty;
+}
+
+export async function findPropertiesByQueryObject(queryObject) {
+	await connectDB();
+
+	const properties = await Property.find(queryObject);
+
+	return properties;
 }

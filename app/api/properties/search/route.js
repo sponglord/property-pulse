@@ -1,11 +1,8 @@
-import connectDB from '@/config/database';
-import Property from '@/models/Property';
+import { findPropertiesByQueryObject } from '@/utils/properties';
 
 // GET /api/properties/search
 export const GET = async (request) => {
 	try {
-		await connectDB();
-
 		// In a server rendered page can retrieve params from the url like this
 		// c.f. const searchParams = useSearchParams(); (from next/navigation) which we would use in a client rendered page
 		const { searchParams } = new URL(request.url);
@@ -44,7 +41,8 @@ export const GET = async (request) => {
 		}
 
 		// Retrieve all props from DB, based on query
-		const properties = await Property.find(query);
+
+		const properties = await findPropertiesByQueryObject(query);
 
 		return new Response(JSON.stringify(properties), {
 			status: 200,
