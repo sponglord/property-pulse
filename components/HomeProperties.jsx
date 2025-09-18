@@ -1,8 +1,7 @@
 import PropertyCard from '@/components/PropertyCard';
 import Link from 'next/link';
 // import { fetchProperties } from '@/utils/requests';
-import connectDB from '@/config/database';
-import Property from '@/models/Property';
+import { getRecentProperties } from '@/utils/properties';
 
 const HomeProperties = async () => {
 	// This is a server component - so we are "allowed" to call this function which will make a db call
@@ -12,14 +11,10 @@ const HomeProperties = async () => {
 	// 	.sort(() => Math.random() - Math.random()) // N.B. trick to randomise an array
 	// 	.slice(0, 3);
 
-	// Avoid circular dependencies on Vercel and access the DB directly
-	await connectDB();
-
-	// Get the 3 latest properties
-	const recentProperties = await Property.find({})
-		.sort({ createdAt: -1 })
-		.limit(3)
-		.lean();
+	// Deployment issue with circular dependencies on Vercel, namely, a Server Component makes a network request
+	// to its own API route during the build process. This happens because this component is on the first, Home, page.
+	// To avoid this issue - access the DB directly via this util
+	const recentProperties = await getRecentProperties();
 	// --
 
 	return (

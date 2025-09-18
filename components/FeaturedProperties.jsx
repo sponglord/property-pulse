@@ -1,17 +1,14 @@
 // import { fetchProperties } from '@/utils/requests';
-import connectDB from '@/config/database';
-import Property from '@/models/Property';
+import { getFeaturedProperties } from '@/utils/properties';
 import FeaturedPropertyCard from './FeaturedPropertyCard';
 
 const FeaturedProperties = async () => {
 	// const properties = await fetchProperties({ showFeatured: true });
 
-	// Avoid circular dependencies on Vercel and access the DB directly
-	await connectDB();
-
-	const properties = await Property.find({
-		is_featured: true,
-	}).lean();
+	// Deployment issue with circular dependencies on Vercel, namely, a Server Component makes a network request
+	// to its own API route during the build process. This happens because this component is on the first, Home, page.
+	// To avoid this issue - access the DB directly via this util
+	const properties = await getFeaturedProperties();
 	// --
 
 	return (

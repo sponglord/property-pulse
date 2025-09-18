@@ -31,6 +31,8 @@ export const GET = async (request, { params }) => {
 		return new Response(JSON.stringify(property), {
 			status: 200,
 			// Need to add this CORS header so that the individual property page will be served on Vercel
+			// UPDATE: Maybe not true - might have just been an issue with running the deploy preview (https://property-pulse-avt5k153y-sponglords-projects.vercel.app)
+			// rather than the *actual* deployment (https://property-pulse-mauve-two.vercel.app)
 			// headers: {
 			// 	'Content-Type': 'application/json',
 			// 	'Access-Control-Allow-Origin': '*', // Allows requests from any origin
