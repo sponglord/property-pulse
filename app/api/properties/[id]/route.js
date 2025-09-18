@@ -30,10 +30,11 @@ export const GET = async (request, { params }) => {
 
 		return new Response(JSON.stringify(property), {
 			status: 200,
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*', // Allows requests from any origin
-			},
+			// Need to add this CORS header so that the individual property page will be served on Vercel
+			// headers: {
+			// 	'Content-Type': 'application/json',
+			// 	'Access-Control-Allow-Origin': '*', // Allows requests from any origin
+			// },
 		});
 	} catch (error) {
 		console.log('### api/properties/:id GET error:: e=', error);
