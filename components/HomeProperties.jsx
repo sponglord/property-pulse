@@ -1,21 +1,12 @@
 import PropertyCard from '@/components/PropertyCard';
 import Link from 'next/link';
-// import { fetchProperties } from '@/utils/requests';
 import { getRecentProperties } from '@/utils/properties';
 
 const HomeProperties = async () => {
-	// This is a server component - so we are "allowed" to call this function which will make a db call
-	// const data = await fetchProperties();
-
-	// const recentProperties = data.properties
-	// 	.sort(() => Math.random() - Math.random()) // N.B. trick to randomise an array
-	// 	.slice(0, 3);
-
 	// Deployment issue with circular dependencies on Vercel, namely, a Server Component makes a network request
 	// to its own API route during the build process. This happens because this component is on the first, Home, page.
 	// To avoid this issue - access the DB directly via this util
 	const recentProperties = await getRecentProperties();
-	// --
 
 	return (
 		<>

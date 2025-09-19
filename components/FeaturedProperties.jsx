@@ -1,15 +1,11 @@
-// import { fetchProperties } from '@/utils/requests';
 import { getFeaturedProperties } from '@/utils/properties';
 import FeaturedPropertyCard from './FeaturedPropertyCard';
 
 const FeaturedProperties = async () => {
-	// const properties = await fetchProperties({ showFeatured: true });
-
 	// Deployment issue with circular dependencies on Vercel, namely, a Server Component makes a network request
 	// to its own API route during the build process. This happens because this component is on the first, Home, page.
 	// To avoid this issue - access the DB directly via this util
 	const properties = await getFeaturedProperties();
-	// --
 
 	return (
 		properties.length > 0 && (
