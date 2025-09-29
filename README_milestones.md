@@ -1,6 +1,6 @@
 ## Description
 
-This is the eleventh phase of a project originally bootstrapped with [`create-next-app`].
+This is the fourteenth phase of a project originally bootstrapped with [`create-next-app`].
 
 -   It is created from a course at: https://learning.oreilly.com/course/next-js-14-from/9781836207979/
 -   The repo for the course files is: https://github.com/bradtraversy/property-pulse-nextjs
@@ -54,13 +54,14 @@ The project is a property app for finding rentable properties and also to add pr
 -
 -   Phase 13 (starts at "Chap 10, Fetch Featured Properties")
 -   Add "Featured Property" cards to the home page as a means to focus attention on particual properties
+-
+-   Phase 14 Deploying to Vercel
+-   Some changes were needed to avoid circular dependencies when building on Vercel
 
-### Main Additions since phase 12:
+### Main Additions since phase 13:
 
--   `app/api/properties/featured/route.js` - a new route to retrieve only the properties that have "is_featured:true"
--   `components/FeaturedProperties.jsx`- a new component that sits on the home page (`app/page.jsx`) and uses the new route to display the featured properties. It does this via the util `utils/requests.js` to request the properties; and maps them to a `FeaturedPropertyCard`
--   `utils/requests.js` - util altered to accept a "showFeatured" param, the value of which decides whether it uses the `api/properties` route or the `api/properties/featured/` route
--   `components/FeaturedPropertyCard.jsx` - a new component to display an individual, "featured", property
+-   `/components/FeaturedProperties.jsx` & `components/HomeProperties.jsx` were both calling a util, `fetchProperties`, which made an api call. But this meant that a Server Component was making a network request to its own API route during the build process. This happened because both componetns were found on the home/index page.
+-   a new set of utils were created in `utils/properties.js` that access the DB directly. These utils are now used by `FeaturedProperties.jsx`, `HomeProperties.jsx`, `app/api/properties/[id]/route.js`, `app/api/bookmarks/route.js`, `app/api/properties/search/route.js` & `app/api/properties/user/[userid]/route.js`
 
 ## Getting Started
 
@@ -86,4 +87,4 @@ bun dev
 
 Open [http://localhost:5040](http://localhost:5040) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+You can start editing the home page by modifying `app/page.js`. The page auto-updates as you edit the file.
