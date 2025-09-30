@@ -1,6 +1,6 @@
 ## Description
 
-This is the seventh phase of a project originally bootstrapped with [`create-next-app`].
+This is the eighth phase of a project originally bootstrapped with [`create-next-app`].
 
 -   It is created from a course at: https://learning.oreilly.com/course/next-js-14-from/9781836207979/
 -   The repo for the course files is: https://github.com/bradtraversy/property-pulse-nextjs
