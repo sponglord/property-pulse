@@ -9,54 +9,69 @@ The project is a property app for finding rentable properties and also to add pr
 
 -   Phase 1 (probably a combination of "Chap 1, Environment Setup" & "Chap 2, New Project & Folder Structure"):
 -   Bare bones: project bootstrap
+-   ace870a
 -
 -   Phase 2 (probably starts at "Chap 2, Layout, Homepage & Metadata"):
 -   The project has a Home page with top nav bar, footer and main content; and which allows you, via fixed file-routing
 -   to navigate to a page where properties are displayed
 -   From here dynamic routing \[id\] allows you to got to a page for a specific property
+-   918a740
 -
 -   Phase 3 ("Chap 3, Database, API Routes & Property Components"):
 -   Property data is loaded from a MongoDB database
+-   b1a7497
 -
 -   Phase 4 ("Chap 4, Next Auth, Sessions & Google Provider"):
 -   Login routing & authentication is supplied by `next-auth` using Google as an authentication provider
+-   161c1c7
 -
 -   Phase 5 ("Chap 5, Create Properties & Cloudinary Integration"):
 -   There is a form that will allow the user to add a new property to the database
 -   Image upload capabilities are provided using Cloudinary (a cloud based image service)
 -   The components (PropertyCard, PropertyHeaderImage & PropertyImages) now all load their images from Cloudinary
+-   287bbb3
 -
 -   Phase 6 ("Chap 6, Profile & Manage Properties"):
 -   The user profile page displays the users image, name, email and properties; and allows the user to edit and delete a property
 -   App now has full CRUD (Create, Read, Update, Delete)
+-   82d5b51
 -
 -   Phase 7 ("Chap 7, Map, Bookmarks & Sharing"):
 -   Uses Mapbox and Google Geocoding to add mapping functionality for an address.
 -   Added bookmarking functionality, and a "Saved Properties" page to display and share these bookmarks
+-   9b6fd46
 -
 -   Phase 8 ("Chap 8, Property Search"):
 -   Created separate Search component (`PropertySearchForm`), which submits to a Search Results page that
 -   calls an API route which searches for location (city, street, state, zipcode), property type, name or description
 -   and displays the results
+-   6e048aa
 -
 -   Phase 9 (starts at "Chap 9, Messaging System"):
 -   Adding the messaging functionality: the ability to save & fetch messages to/from the DB
 -   Messages are ordered with "new" i.e. unread ones, at the top. Once a message is displayed it can be marked as read/unread, & can also be deleted
+-   94bcd6e
 -
 -   Phase 10 (starts at "Chap 9, Global Context For Unread Messages"):
 -   Use React ContextAPI to give us global state for the unread message count in the Navbar (accessed by the `UnreadMessageCount` and `Message` components). This allows the count to update with out a page refresh to re-query the DB
+-   f97e3ad
 -
 -   Phase 11 (starts at "Chap 10, Properties Client Component Refactor"):
 -   Adding pagination for when we want to limit how many properties appear on a page. Ans a pagination component to allow us to move through the properties a page at a time
+-   1ff749a
 -
 -   Phase 12 (starts at "Chap 10, Photoswipe Lightbox"):
 -   Creating a lightbox effect on the page for a property, using Photoswipe & react-photoswipe-gallery, to scroll through the uploaded images for that particular property
+-   b5960e9
 -
 -   Phase 13 (starts at "Chap 10, Fetch Featured Properties")
 -   Add "Featured Property" cards to the home page as a means to focus attention on particual properties
+-   actual commit: da3841d
+-   what we are calling phase 13 commit: 0f2ad1f (adds a couple of missing awaits)
 -
 -   Phase 14 Deploying to Vercel
 -   Some changes were needed to avoid circular dependencies when building on Vercel
+-   9f44a71
 
 ### Main Additions since phase 13:
 
